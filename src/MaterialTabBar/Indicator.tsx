@@ -16,31 +16,52 @@ const Indicator: React.FC<IndicatorProps> = ({
   style,
   fadeIn = false,
 }) => {
+
+  const indicatorWidth = 30
   const opacity = useSharedValue(fadeIn ? 0 : 1)
 
   const stylez = useAnimatedStyle(() => {
+
+    const itemWidth = itemsLayout.length > 1
+      ? interpolate(
+        indexDecimal.value,
+        itemsLayout.map((_, i) => i),
+        itemsLayout.map((v) => v.width)
+      )
+      : itemsLayout[0]?.width
+
+    const itemX = interpolate(
+      indexDecimal.value,
+      itemsLayout.map((_, i) => i),
+      // when in RTL mode, the X value should be inverted
+      itemsLayout.map((v) => (isRTL ? -1 * v.x : v.x))
+    )
+
     const transform =
       itemsLayout.length > 1
         ? [
-            {
-              translateX: interpolate(
-                indexDecimal.value,
-                itemsLayout.map((_, i) => i),
-                // when in RTL mode, the X value should be inverted
-                itemsLayout.map((v) => (isRTL ? -1 * v.x : v.x))
-              ),
-            },
-          ]
+          {
+            // translateX: interpolate(
+            //   indexDecimal.value,
+            //   itemsLayout.map((_, i) => i),
+            //   // when in RTL mode, the X value should be inverted
+            //   itemsLayout.map((v) => (isRTL ? -1 * v.x : v.x))
+            // ),
+            translateX: itemX + (itemWidth / 2) - (indicatorWidth / 2)
+          },
+        ]
         : undefined
 
-    const width =
-      itemsLayout.length > 1
-        ? interpolate(
-            indexDecimal.value,
-            itemsLayout.map((_, i) => i),
-            itemsLayout.map((v) => v.width)
-          )
-        : itemsLayout[0]?.width
+    // const width =
+    //   itemsLayout.length > 1
+    //     ? interpolate(
+    //       indexDecimal.value,
+    //       itemsLayout.map((_, i) => i),
+    //       itemsLayout.map((v) => v.width)
+    //     )
+    //     : itemsLayout[0]?.width
+
+    const width = 30
 
     return {
       transform,

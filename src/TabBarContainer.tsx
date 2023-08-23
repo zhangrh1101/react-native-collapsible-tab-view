@@ -48,5 +48,8 @@ export const TabBarContainer: React.FC<TabBarContainerProps> = ({
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, zIndex: 1 },
+  container: {
+    flex: 1,
+    zIndex: 1,
+  },
 })

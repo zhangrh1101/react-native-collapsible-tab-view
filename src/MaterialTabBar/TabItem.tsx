@@ -50,6 +50,13 @@ export const MaterialTabItem = <T extends TabName = string>(
         Math.abs(index - indexDecimal.value) < 0.5
           ? activeColor
           : inactiveColor,
+
+      fontSize: interpolate(
+        indexDecimal.value,
+        [index - 1, index, index + 1],
+        [labelStyle.fontSize, labelStyle.fontSize * 1.1, labelStyle.fontSize],
+        Extrapolation.CLAMP
+      ),
     }
   })
 
@@ -61,7 +68,6 @@ export const MaterialTabItem = <T extends TabName = string>(
         </Animated.Text>
       )
     }
-
     return label(props)
   }, [label, labelStyle, props, stylez])
 
@@ -82,7 +88,8 @@ export const MaterialTabItem = <T extends TabName = string>(
       {...rest}
     >
       {image}
-      {isTabActive ? renderedLabel : null}
+      {/* {isTabActive ? renderedLabel : null} */}
+      {renderedLabel}
     </Pressable>
   )
 }
@@ -99,6 +106,6 @@ const styles = StyleSheet.create({
   },
   label: {
     margin: 0,
-    marginLeft:3
+    // marginLeft: 3
   },
 })
